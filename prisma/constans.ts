@@ -114,7 +114,7 @@ export const ingredients = [
 			"https://cdn.dodostatic.net/static/Img/Ingredients/000D3A39D824A82E11E9AFA6B0FFC349",
 	},
 	{
-		name: "Митболы111111",
+		name: "Митболы",
 		price: 79,
 		imageUrl:
 			"https://cdn.dodostatic.net/static/Img/Ingredients/b2f3a5d5afe44516a93cfc0d2ee60088.png",
