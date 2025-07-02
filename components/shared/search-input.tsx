@@ -26,6 +26,7 @@ export const SearchInput: React.FC<Props> = ({ className }) => {
 			try {
 				const data = await Api.products.search(searchQuery);
 				setProducts(data);
+				console.log("qweqeqeqweqwewqewqqwqqweqww!!!!1");
 			} catch (error) {
 				console.log("ERORROROROR", error);
 			}
