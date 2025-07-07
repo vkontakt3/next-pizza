@@ -2,48 +2,35 @@
 
 import React from "react";
 import { Title } from "./title";
-import { FilterCheckbox } from "./filter-checkbox";
 import { Input } from "../ui/input";
 import { RangeSlider } from "./range-slider";
 import { CheckboxFiltersGroup } from "./checkbox-filters-group";
-import { useFilterIngredients } from "@/hooks/useFilterIngredients";
-import { useSet } from "react-use";
+import { useFilters } from "@/hooks/use-filters";
+import { useFetchIngredients } from "@/hooks/use-fetch-ingredients";
 
 interface Props {
 	className?: string;
 }
 
-interface PriceProps {
-	priceFrom: number;
-	priceTo: number;
-}
-
 export const Filters: React.FC<Props> = ({ className }) => {
-	const { ingredient, loading, onAddId, selectedIngredients } =
-		useFilterIngredients();
-	const [prices, setPrice] = React.useState<PriceProps>({
-		priceFrom: 0,
-		priceTo: 1000,
-	});
+	const {
+		sizes,
+		toggleSizes,
+		types,
+		toggleTypes,
+		Idstoggle,
+		selectedIngredients,
+		updatePrice,
+		prices,
+		setPrice,
+	} = useFilters();
 
-	const [sizes, { toggle: toggleSizes }] = useSet(new Set<string>([]));
-	const [types, { toggle: toggleTypes }] = useSet(new Set<string>([]));
+	const { ingredient, loading } = useFetchIngredients();
 
 	const items = ingredient.map((obj) => ({
 		value: String(obj.id),
 		text: obj.name,
 	}));
-
-	const updatePrice = (name: keyof PriceProps, value: number) => {
-		setPrice({
-			...prices,
-			[name]: value,
-		});
-	};
-
-	React.useEffect(() => {
-		console.log(selectedIngredients, sizes, types, prices);
-	}, [selectedIngredients, sizes, types, prices]);
 
 	return (
 		<div className={className}>
@@ -100,7 +87,7 @@ export const Filters: React.FC<Props> = ({ className }) => {
 					min={0}
 					max={1000}
 					step={10}
-					value={[prices.priceFrom, prices.priceTo]}
+					value={[prices.priceFrom || 0, prices.priceTo || 1000]}
 					onValueChange={([priceFrom, priceTo]) =>
 						setPrice({ priceFrom, priceTo })
 					}
@@ -114,7 +101,7 @@ export const Filters: React.FC<Props> = ({ className }) => {
 				defaultItems={items.slice(0, 6)}
 				items={items}
 				loading={loading}
-				onClickCheckbox={onAddId}
+				onClickCheckbox={Idstoggle}
 				selectedValues={selectedIngredients}
 			/>
 		</div>

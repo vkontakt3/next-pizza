@@ -93,6 +93,30 @@ async function up() {
 		},
 	});
 
+	const pizza4 = await prisma.product.create({
+		data: {
+			name: "Охотничья",
+			imageUrl:
+				"https://media.dodostatic.net/image/r:292x292/019635b27c727302835040e5d7c27caa.avif",
+			categoryId: 1,
+			ingredients: {
+				connect: ingredients.slice(5, 14),
+			},
+		},
+	});
+
+	const pizza5 = await prisma.product.create({
+		data: {
+			name: "Аррива!",
+			imageUrl:
+				"https://media.dodostatic.net/image/r:292x292/019591a0591d7642b97bf6ed6da45252.avif",
+			categoryId: 1,
+			ingredients: {
+				connect: ingredients.slice(12, 20),
+			},
+		},
+	});
+
 	await prisma.productItem.createMany({
 		data: [
 			// Пицца "Пепперони фреш"
@@ -112,6 +136,15 @@ async function up() {
 			generateProductItem({ productId: pizza3.id, pizzaType: 1, size: 20 }),
 			generateProductItem({ productId: pizza3.id, pizzaType: 2, size: 30 }),
 			generateProductItem({ productId: pizza3.id, pizzaType: 2, size: 40 }),
+
+			generateProductItem({ productId: pizza4.id, pizzaType: 1, size: 20 }),
+			generateProductItem({ productId: pizza4.id, pizzaType: 1, size: 30 }),
+			generateProductItem({ productId: pizza4.id, pizzaType: 2, size: 30 }),
+			generateProductItem({ productId: pizza4.id, pizzaType: 2, size: 40 }),
+
+			generateProductItem({ productId: pizza5.id, pizzaType: 1, size: 20 }),
+			generateProductItem({ productId: pizza5.id, pizzaType: 2, size: 30 }),
+			generateProductItem({ productId: pizza5.id, pizzaType: 2, size: 40 }),
 
 			// Остальные продукты
 			generateProductItem({ productId: 1 }),
