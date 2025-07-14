@@ -1,16 +1,20 @@
-import { Container } from "@/components/shared/container";
-import { GroupVariants } from "@/components/shared/group-variatns";
-import { ProductImage } from "@/components/shared/product-image";
-import { Title } from "@/components/shared/title";
+import { Container } from "@/shared/components/shared/container";
+import { GroupVariants } from "@/shared/components/shared/group-variants";
+import { ProductImage } from "@/shared/components/shared/product-image";
+import { Title } from "@/shared/components/shared/title";
 import { prisma } from "@/prisma/prisma-client";
 import { notFound } from "next/navigation";
 
 export default async function ProductPage({
-	params: { id },
+	params,
 }: {
 	params: { id: string };
 }) {
-	const product = await prisma.product.findFirst({ where: { id: Number(id) } });
+	const { id } = params;
+
+	const product = await prisma.product.findFirst({
+		where: { id: Number(id) },
+	});
 
 	if (!product) {
 		return notFound();

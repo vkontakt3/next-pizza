@@ -129,15 +129,21 @@ export const products = [
 		categoryId: 2,
 	},
 	{
+		name: "Сырники со сгущенным молоком",
+		imageUrl:
+			"https://media.dodostatic.net/image/r:292x292/0197fa1a1bf472a090d04933e6a462d8.avif",
+		categoryId: 2,
+	},
+	{
 		name: "Омлет с пепперони",
 		imageUrl:
 			"https://media.dodostatic.net/image/r:292x292/11EE94ECF33B0C46BA410DEC1B1DD6F8.webp",
 		categoryId: 2,
 	},
 	{
-		name: "Кофе Латте",
+		name: "Хашбрауны",
 		imageUrl:
-			"https://media.dodostatic.net/image/r:292x292/11EE7D61B0C26A3F85D97A78FEEE00AD.webp",
+			"https://media.dodostatic.net/image/r:292x292/019591f326f27455a9841fb14785fc27.avif",
 		categoryId: 2,
 	},
 	{
@@ -168,6 +174,12 @@ export const products = [
 		name: "Острый Додстер ",
 		imageUrl:
 			"https://media.dodostatic.net/image/r:292x292/11EE796FD3B594068F7A752DF8161D04.webp",
+		categoryId: 3,
+	},
+	{
+		name: "Чикен ролл",
+		imageUrl:
+			"https://media.dodostatic.net/image/r:292x292/019595f503e27410ab6e179c05347231.avif",
 		categoryId: 3,
 	},
 	{
@@ -207,21 +219,27 @@ export const products = [
 		categoryId: 5,
 	},
 	{
-		name: "Кофе Кокосовый латте",
+		name: "Добрый Кола без сахара",
 		imageUrl:
-			"https://media.dodostatic.net/image/r:292x292/11EE7D61B19FA07090EE88B0ED347F42.webp",
+			"https://media.dodostatic.net/image/r:292x292/0197f8650cad733baf4fcfeb53fb32e4.avif",
 		categoryId: 5,
 	},
 	{
-		name: "Кофе Американо",
+		name: "Добрый Кола",
 		imageUrl:
-			"https://media.dodostatic.net/image/r:292x292/11EE7D61B044583596548A59078BBD33.webp",
+			"https://media.dodostatic.net/image/r:292x292/0197f865693f78799a4e92756a2ebe38.avif",
 		categoryId: 5,
 	},
 	{
-		name: "Кофе Латте",
+		name: "Добрый Киви-Виноград",
 		imageUrl:
-			"https://media.dodostatic.net/image/r:292x292/11EE7D61B0C26A3F85D97A78FEEE00AD.webp",
+			"https://media.dodostatic.net/image/r:292x292/0197f862fa6871cfa3d9dc39df34aff9.avif",
+		categoryId: 5,
+	},
+	{
+		name: "Rich Tea Зеленый с манго",
+		imageUrl:
+			"https://media.dodostatic.net/image/r:292x292/0197f869012977299dea763d56f31e67.avif",
 		categoryId: 5,
 	},
 ];
