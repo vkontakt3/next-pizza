@@ -54,7 +54,7 @@ model Product {
     createdAt DateTime @default(now())
     updateAt DateTime @updatedAt  
 
-    cartItem cartItem[]
+    
 }
 
 model ProductItem {
@@ -66,6 +66,8 @@ model ProductItem {
 
     product Product @relation(fields: [productId], references: [id])
     productId Int
+
+    cartItem cartItem[]
 }
 
 
@@ -105,7 +107,7 @@ model Cart {
 model cartItem {
     id Int @id @default(autoincrement())
 
-    productItem Product @relation(fields: [productItemId], references: [id])
+    productItem ProductItem @relation(fields: [productItemId], references: [id])
     productItemId Int
 
     cartId Int
