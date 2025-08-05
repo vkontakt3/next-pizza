@@ -8,20 +8,22 @@ import { GroupVariants } from "./group-variants";
 interface Props {
 	imageUrl: string;
 	name: string;
+	price: number;
 	items: any[];
-	onClickAdd: VoidFunction;
+	onSubmit?: VoidFunction;
+	loading: boolean;
 	className?: string;
 }
 
 export const ChooseProductForm: React.FC<Props> = ({
 	name,
-	items,
+	price,
 	imageUrl,
-	onClickAdd,
+	loading,
+	onSubmit,
 	className,
 }) => {
 	const textDetaills = `${name} 30см`;
-	const totalPrice = 350;
 	return (
 		<div className={cn(className, "flex flex-1")}>
 			<div className="flex items-center justify-center flex-1 relative w-full">
@@ -37,8 +39,12 @@ export const ChooseProductForm: React.FC<Props> = ({
 
 				<p className="text-gray-400">{textDetaills}</p>
 
-				<Button className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10">
-					Добавить в корзину за {totalPrice} ₽
+				<Button
+					loading={loading}
+					onClick={onSubmit}
+					className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10"
+				>
+					Добавить в корзину за {price} ₽
 				</Button>
 			</div>
 		</div>

@@ -9,6 +9,10 @@ import { ChooseProductForm } from "../choose-product-form";
 import { ProductWithRelations } from "@/@types/prisma";
 import { ChoosePizzaForm } from "../choose-pizza-form";
 import { DialogTitle } from "@radix-ui/react-dialog";
+import { useCartStore } from "@/shared/store/cart";
+import { ingredients } from "@/prisma/constans";
+import toast from "react-hot-toast";
+import { ProductForm } from "../product-form";
 
 type Props = {
 	product: ProductWithRelations;
@@ -17,12 +21,6 @@ type Props = {
 
 export const ChooseProductModal: React.FC<Props> = ({ product, className }) => {
 	const router = useRouter();
-	const isPizzaForm = Boolean(product.variants?.[0].pizzaType);
-	console.log(isPizzaForm);
-
-	function onClickAdd() {
-		console.log("qweqweqeqqwe");
-	}
 
 	return (
 		<Dialog open={Boolean(product)} onOpenChange={() => router.back()}>
@@ -37,22 +35,7 @@ export const ChooseProductModal: React.FC<Props> = ({ product, className }) => {
 				)}
 			>
 				<DialogTitle className="sr-only">Product title</DialogTitle>
-				{isPizzaForm ? (
-					<ChoosePizzaForm
-						imageUrl={product.imageUrl}
-						name={product.name}
-						ingredients={product.ingredients}
-						items={product.variants}
-						onClickAdd={onClickAdd}
-					/>
-				) : (
-					<ChooseProductForm
-						imageUrl={product.imageUrl}
-						name={product.name}
-						items={[]}
-						onClickAdd={onClickAdd}
-					/>
-				)}
+				<ProductForm product={product} onSubmitBack={() => router.back()} />
 			</DialogContent>
 		</Dialog>
 	);

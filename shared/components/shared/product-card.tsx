@@ -9,19 +9,19 @@ interface Props {
 	id: number;
 	name: string;
 	price: number;
-	count: number;
 	imageUrl: string;
 	ingredients: Ingredient[];
+	loading: Boolean;
 	className?: string;
 }
 
 export const ProductCard: React.FC<Props> = ({
 	id,
 	name,
-	count,
 	price,
 	imageUrl,
 	ingredients,
+	loading,
 	className,
 }) => {
 	return (

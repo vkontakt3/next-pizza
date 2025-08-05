@@ -1,29 +1,23 @@
 import { cn } from "@/shared/lib/utils";
-import React, { useState } from "react";
+import React from "react";
 import { ProductImage } from "./product-image";
 import { Title } from "./title";
 import { Button } from "../ui/button";
 import { GroupVariants } from "./group-variants";
-import {
-	mapPizzaType,
-	PizzaSize,
-	pizzaSizes,
-	PizzaType,
-	pizzaTypes,
-} from "@/shared/constants/pizza";
-import { Ingredient } from "@prisma/client";
+import { PizzaSize, PizzaType, pizzaTypes } from "@/shared/constants/pizza";
+import { Ingredient, ProductItem } from "@prisma/client";
 import { Ingredients } from "./ingredient";
-import { useSet } from "react-use";
-import { CalcTotalPizzaPrice } from "@/shared/lib/calc-total-pizza-price";
-import { GetAvailablePizzaSizes } from "@/shared/lib/get-available-pizza-sizes";
-import { DetailsPizzaForm } from "@/shared/hooks/details-pizza-form";
+import { useDetailsPizzaForm } from "@/shared/hooks/use-details-pizza-form";
+import { usePizzaOptions } from "@/shared/hooks/use-pizza-options";
 
 interface Props {
 	imageUrl: string;
 	name: string;
 	ingredients: Ingredient[];
-	items: any[];
-	onClickAdd: VoidFunction;
+	items: ProductItem[];
+	currentItemId?: number;
+	loading: boolean;
+	onSubmit: (itemId: number, ingredients: number[]) => void;
 	className?: string;
 }
 
@@ -32,25 +26,32 @@ export const ChoosePizzaForm: React.FC<Props> = ({
 	items,
 	imageUrl,
 	ingredients,
-	onClickAdd,
+	loading,
+	onSubmit,
 	className,
 }) => {
-	const [size, setSize] = useState<PizzaSize>(20);
-	const [type, setType] = useState<PizzaType>(1);
-	const [selectedIngredient, { toggle }] = useSet(new Set<number>([]));
+	const {
+		size,
+		type,
+		selectedIngredients,
+		availableSizes,
+		currentItemId,
+		setSize,
+		setType,
+		addIngredient,
+	} = usePizzaOptions(items);
 
-	const { textDetaills, totalPrice } = DetailsPizzaForm(
+	const { textDetaills, totalPrice } = useDetailsPizzaForm(
 		items,
-		selectedIngredient,
+		selectedIngredients,
 		type,
 		size
 	);
 
-	const avaliablePizzasSizes = GetAvailablePizzaSizes(items, type, setSize);
-
 	const handleClickAdd = () => {
-		onClickAdd?.();
-		console.log(size, type, selectedIngredient);
+		if (currentItemId) {
+			onSubmit(currentItemId, Array.from(selectedIngredients));
+		}
 	};
 
 	return (
@@ -65,7 +66,7 @@ export const ChoosePizzaForm: React.FC<Props> = ({
 				<p className="text-gray-400">{textDetaills}</p>
 
 				<GroupVariants
-					items={avaliablePizzasSizes}
+					items={availableSizes}
 					selectedValue={String(size)}
 					onClick={(value) => setSize(Number(value) as PizzaSize)}
 					className="mt-4 mb-3"
@@ -84,14 +85,15 @@ export const ChoosePizzaForm: React.FC<Props> = ({
 								imageUrl={ingredient.imageUrl}
 								name={ingredient.name}
 								price={ingredient.price}
-								active={selectedIngredient.has(ingredient.id)}
-								onClick={() => toggle(ingredient.id)}
+								active={selectedIngredients.has(ingredient.id)}
+								onClick={() => addIngredient(ingredient.id)}
 							/>
 						))}
 					</div>
 				</div>
 
 				<Button
+					loading={loading}
 					onClick={handleClickAdd}
 					className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10"
 				>

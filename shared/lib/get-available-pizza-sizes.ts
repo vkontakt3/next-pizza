@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { PizzaSize, pizzaSizes, PizzaType } from "../constants/pizza";
 import { ProductItem } from "@prisma/client";
 
-export const GetAvailablePizzaSizes = (
+export const getAvailablePizzaSizes = (
 	items: ProductItem[],
 	type: PizzaType,
 	setSize: (value: PizzaSize) => void

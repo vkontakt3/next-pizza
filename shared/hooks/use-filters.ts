@@ -1,6 +1,6 @@
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSet } from "react-use";
-import React, { useCallback } from "react";
+import React from "react";
 import qs from "qs";
 
 interface PriceProps {
@@ -11,17 +11,17 @@ interface PriceProps {
 interface QueryFilters extends PriceProps {
 	sizes: string;
 	types: string;
-	selectedIngredients: string;
+	ingredients: string;
 }
 
 export const useFilters = () => {
+	const router = useRouter();
 	const searchParams = useSearchParams() as unknown as Map<
 		keyof QueryFilters,
 		string
 	>;
 
-	const initialSelected =
-		searchParams.get("selectedIngredients")?.split(",") || [];
+	const initialSelected = searchParams.get("ingredients")?.split(",") || [];
 
 	const [selectedIngredients, { toggle: Idstoggle }] = useSet(
 		new Set<string>(initialSelected || [])
@@ -49,7 +49,7 @@ export const useFilters = () => {
 			...prices,
 			sizes: Array.from(sizes),
 			types: Array.from(types),
-			selectedIngredients: Array.from(selectedIngredients),
+			ingredients: Array.from(selectedIngredients),
 		}),
 		[prices, sizes, types, selectedIngredients]
 	);
@@ -59,9 +59,9 @@ export const useFilters = () => {
 		const current = searchParams.toString();
 
 		if (query !== current) {
-			window.history.pushState(null, "", `?${query}`);
+			router.push(`?${query}`, { scroll: false });
 		}
-	}, [filters]);
+	}, [filters, router]);
 
 	const updatePrice = (name: keyof PriceProps, value: number) => {
 		setPrice({
@@ -70,15 +70,18 @@ export const useFilters = () => {
 		});
 	};
 
-	return {
-		sizes,
-		toggleSizes,
-		types,
-		toggleTypes,
-		Idstoggle,
-		selectedIngredients,
-		updatePrice,
-		prices,
-		setPrice,
-	};
+	return React.useMemo(
+		() => ({
+			sizes,
+			toggleSizes,
+			types,
+			toggleTypes,
+			Idstoggle,
+			selectedIngredients,
+			updatePrice,
+			prices,
+			setPrice,
+		}),
+		[sizes, types, selectedIngredients, prices]
+	);
 };

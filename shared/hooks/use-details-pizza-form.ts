@@ -3,7 +3,7 @@ import { CalcTotalPizzaPrice } from "../lib/calc-total-pizza-price";
 import { mapPizzaType, PizzaSize, PizzaType } from "../constants/pizza";
 import { ingredients } from "@/prisma/constans";
 
-export const DetailsPizzaForm = (
+export const useDetailsPizzaForm = (
 	items: ProductItem[],
 	selectedIngredient: Set<number>,
 	type: PizzaType,
