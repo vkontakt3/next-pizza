@@ -46,7 +46,7 @@ export const findPizzas = async (params: GetSearchParams) => {
 								},
 						  }
 						: undefined,
-					variants: {
+					items: {
 						some: {
 							size: {
 								in: sizes,
@@ -63,7 +63,7 @@ export const findPizzas = async (params: GetSearchParams) => {
 				},
 				include: {
 					ingredients: true,
-					variants: {
+					items: {
 						where: {
 							price: {
 								gte: minPrice,

@@ -20,7 +20,7 @@ export const ProductForm: React.FC<Props> = ({
 }) => {
 	const loading = useCartStore((state) => state.loading);
 	const addCartItem = useCartStore((state) => state.addCartItem);
-	const firstItem = product.variants?.[0];
+	const firstItem = product.items?.[0];
 	const isPizzaForm = Boolean(firstItem.pizzaType);
 
 	const onSubmit = async (productItemId?: number, ingredients?: number[]) => {
@@ -36,7 +36,7 @@ export const ProductForm: React.FC<Props> = ({
 				});
 			}
 
-			toast.success("Пицца добавлена в корзину");
+			toast.success("Товар добавлен в корзину");
 			onSubmitBack?.();
 		} catch (error) {
 			toast.error("Не удалось добавить пиццу в корзину");
@@ -50,7 +50,7 @@ export const ProductForm: React.FC<Props> = ({
 				imageUrl={product.imageUrl}
 				name={product.name}
 				ingredients={product.ingredients}
-				items={product.variants}
+				items={product.items}
 				onSubmit={onSubmit}
 				loading={loading}
 			/>

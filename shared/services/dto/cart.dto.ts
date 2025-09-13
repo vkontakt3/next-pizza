@@ -1,12 +1,12 @@
 import {
 	Cart,
-	cartItem,
+	CartItem,
 	Ingredient,
 	Product,
 	ProductItem,
 } from "@prisma/client";
 
-export type CartItemDTO = cartItem & {
+export type CartItemDTO = CartItem & {
 	productItem: ProductItem & {
 		product: Product;
 	};
@@ -14,7 +14,7 @@ export type CartItemDTO = cartItem & {
 };
 
 export interface CartDTO extends Cart {
-	cartItem: any;
+	CartItem: CartItemDTO[];
 	productItem: any;
 	quantity: any;
 	ingredient: any;

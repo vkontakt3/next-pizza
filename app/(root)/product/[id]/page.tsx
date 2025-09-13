@@ -8,7 +8,7 @@ export default async function ProductPage({
 }: {
 	params: { id: string };
 }) {
-	const { id } = params;
+	const { id } = await params;
 
 	const product = await prisma.product.findFirst({
 		where: { id: Number(id) },
@@ -18,12 +18,12 @@ export default async function ProductPage({
 				include: {
 					products: {
 						include: {
-							variants: true,
+							items: true,
 						},
 					},
 				},
 			},
-			variants: true,
+			items: true,
 		},
 	});
 

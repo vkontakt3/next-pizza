@@ -19,6 +19,7 @@ import { useCartStore } from "@/shared/store/cart";
 import { CartStateItem } from "@/shared/lib/get-cart-details";
 import { Ingredient } from "@prisma/client";
 import { PizzaSize, PizzaType } from "@/shared/constants/pizza";
+import { useCart } from "@/shared/hooks/use-cart";
 
 interface Props {
 	className?: string;
@@ -28,17 +29,7 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({
 	children,
 	className,
 }) => {
-	const fetchCartItems = useCartStore((state) => state.fetchCartItems);
-	const removeCartItem = useCartStore((state) => state.removeCartItem);
-	const totalAmount = useCartStore((state) => state.totalAmount);
-	const loading = useCartStore((state) => state.loading);
-	const items = useCartStore((state) => state.items);
-
-	React.useEffect(() => {
-		fetchCartItems();
-	}, []);
-
-	console.log(items);
+	const { removeCartItem, totalAmount, loading, items } = useCart();
 
 	return (
 		<Sheet>

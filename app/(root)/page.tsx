@@ -6,13 +6,15 @@ import { Title } from "@/shared/components/shared/title";
 import { TopBar } from "@/shared/components/shared/top-bar";
 import { Suspense } from "react";
 import { findPizzas, GetSearchParams } from "@/shared/lib/find-pizza";
+import { cn } from "@/shared/lib/utils";
 
 export default async function Home({
 	searchParams,
 }: {
 	searchParams: GetSearchParams;
 }) {
-	const categories = await findPizzas(searchParams);
+	const params = await searchParams;
+	const categories = await findPizzas(params);
 	return (
 		<>
 			<Container className="mt-10">
@@ -27,7 +29,7 @@ export default async function Home({
 
 			<Container>
 				<div className="flex gap-[60px]">
-					<div className="w-[250px]">
+					<div className={cn("hidden md:block w-[250px]")}>
 						<Suspense>
 							<Filters />
 						</Suspense>

@@ -47,8 +47,8 @@ export const SearchInput: React.FC<Props> = ({ className }) => {
 			)}
 
 			<div ref={ref} className={cn("relative z-30 w-full", className)}>
-				<div className="flex rounded-2xl justify-between h-11">
-					<Search className="absolute top-1/2 translate-y-[-50%] left-3 h-5 text-gray-400" />
+				<div className="hidden sm:flex rounded-2xl justify-between h-11">
+					<Search className="absolute top-1/2 left-3 -translate-y-1/2 h-5 text-gray-400" />
 					<input
 						className="rounded-2xl outline-none w-full bg-gray-100 pl-11 mb-0.5"
 						type="text"

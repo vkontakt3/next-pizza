@@ -7,13 +7,13 @@ export default async function ProductModalPage({
 }: {
 	params: { id: string };
 }) {
-	const { id } = params;
+	const { id } = await params;
 
 	const product = await prisma.product.findFirst({
 		where: { id: Number(id) },
 		include: {
 			ingredients: true,
-			variants: true,
+			items: true,
 		},
 	});
 

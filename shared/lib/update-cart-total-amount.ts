@@ -7,7 +7,7 @@ export const updateCartTotalAmount = async (token: string) => {
 			token,
 		},
 		include: {
-			cartItem: {
+			CartItem: {
 				orderBy: {
 					createdAt: "desc",
 				},
@@ -27,7 +27,7 @@ export const updateCartTotalAmount = async (token: string) => {
 		return;
 	}
 
-	const totalAmount = userCart.cartItem.reduce((acc, item) => {
+	const totalAmount = userCart.CartItem.reduce((acc, item) => {
 		return acc + calcCartItemTotalPrice(item);
 	}, 0);
 
@@ -39,7 +39,7 @@ export const updateCartTotalAmount = async (token: string) => {
 			totalAmount,
 		},
 		include: {
-			cartItem: {
+			CartItem: {
 				orderBy: {
 					createdAt: "desc",
 				},

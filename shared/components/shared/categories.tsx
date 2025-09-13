@@ -16,17 +16,20 @@ export const Categories: React.FC<Props> = ({ items, className }) => {
 
 	return (
 		<div
-			className={cn("inline-flex gap-1 bg-gray-50 p-1 rounded-2xl", className)}
+			className={cn(
+				"flex gap-2 bg-gray-50 p-1 rounded-2xl overflow-x-auto whitespace-nowrap",
+				className
+			)}
 		>
 			{items.map((categorie) => (
 				<Link
 					key={categorie.id}
+					href={`/#${categorie.name}`}
 					className={cn(
-						"flex items-center font-bold h-11 rounded-2xl px-5",
+						"flex-shrink-0 flex items-center justify-center font-bold h-10 md:h-11 rounded-2xl px-4 md:px-5 text-sm md:text-base",
 						activeCategoryId === categorie.id &&
 							"bg-white shadow-md shadow-gray-200 text-primary"
 					)}
-					href={`/#${categorie.name}`}
 				>
 					{categorie.name}
 				</Link>

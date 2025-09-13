@@ -3,6 +3,7 @@ import { prisma } from "./prisma-client";
 import { hashSync } from "bcrypt";
 import { categories, ingredients, products } from "./constans";
 import { Prisma } from "@prisma/client";
+import { randomBytes } from "crypto";
 
 const randomDecimalNumber = (min: number, max: number) => {
 	return Math.floor(Math.random() * (max - min) * 10 + min * 10) / 10;
@@ -169,6 +170,8 @@ async function up() {
 			generateProductItem({ productId: 20 }),
 		],
 	});
+
+	const generateToken = () => randomBytes(8).toString("hex");
 
 	await prisma.cart.createMany({
 		data: [

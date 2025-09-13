@@ -43,9 +43,14 @@ export const useCartStore = create<CartState>((set, get) => ({
 
 	updateItemQuantity: async (id: number, quantity: number) => {
 		try {
-			set({ loading: true, error: false });
+			set((state) => ({
+				loading: true,
+				error: false,
+				items: state.items.map((item) =>
+					item.id === id ? { ...item, disabled: true } : item
+				),
+			}));
 			const data = await Api.cart.updateItemQuantityFunc(id, quantity);
-			console.log(data);
 			set(getCartDetails(data));
 		} catch (error) {
 			console.error(error);
@@ -65,7 +70,6 @@ export const useCartStore = create<CartState>((set, get) => ({
 				),
 			}));
 			const data = await Api.cart.removeCartItem(id);
-			console.log(data);
 			set(getCartDetails(data));
 		} catch (error) {
 			console.error(error);
@@ -82,7 +86,6 @@ export const useCartStore = create<CartState>((set, get) => ({
 		try {
 			set({ loading: true, error: false });
 			const data = await Api.cart.addCartItem(values);
-			console.log(data);
 			set(getCartDetails(data));
 		} catch (error) {
 			console.error(error);
