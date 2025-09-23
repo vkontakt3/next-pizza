@@ -20,5 +20,5 @@ export default async function ProfilePage({ className }: Props) {
 
 	if (!user) return redirect("/not-auth");
 
-	return <ProfileForm data={user} />;
+	return <ProfileForm data={user} image={session.image} />;
 }

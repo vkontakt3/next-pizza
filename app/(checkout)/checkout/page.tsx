@@ -17,12 +17,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/shared/lib/utils";
 import { createOrder } from "@/app/actions";
 import toast from "react-hot-toast";
+import { Api } from "@/shared/services/api-client";
+import { useSession } from "next-auth/react";
 type Props = {};
 
 export default function CheckoutPage({}: Props) {
 	const [submitting, setSubmitting] = React.useState(false);
 	const { removeCartItem, totalAmount, loading, items, updateItemQuantity } =
 		useCart();
+	const { data: session, status } = useSession();
 
 	const form = useForm<CheckoutFormValues>({
 		resolver: zodResolver(checkoutFormSchema),
@@ -35,6 +38,25 @@ export default function CheckoutPage({}: Props) {
 			comment: "",
 		},
 	});
+
+	React.useEffect(() => {
+		async function fetchUserInfo() {
+			try {
+				const data = await Api.auth.getMe();
+				const [firstName, lastName] = data.fullName.split(" ");
+
+				form.setValue("firstName", firstName || "");
+				form.setValue("lastName", lastName || "");
+				form.setValue("email", data.email || "");
+			} catch (err) {
+				console.log("Не удалось загрузить данные пользователя:", err);
+			}
+		}
+
+		if (status === "authenticated") {
+			fetchUserInfo();
+		}
+	}, [status]);
 
 	const onSubmit: SubmitHandler<CheckoutFormValues> = async (data) => {
 		try {

@@ -7,6 +7,7 @@ import { TopBar } from "@/shared/components/shared/top-bar";
 import { Suspense } from "react";
 import { findPizzas, GetSearchParams } from "@/shared/lib/find-pizza";
 import { cn } from "@/shared/lib/utils";
+import Stories from "@/shared/components/shared/stories";
 
 export default async function Home({
 	searchParams,
@@ -26,6 +27,8 @@ export default async function Home({
 					(category) => category.products.length > 0
 				)}
 			/>
+
+			<Stories />
 
 			<Container>
 				<div className="flex gap-[60px]">
