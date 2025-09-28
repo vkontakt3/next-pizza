@@ -12,24 +12,21 @@ import Stories from "@/shared/components/shared/stories";
 export default async function Home({
 	searchParams,
 }: {
-	searchParams: GetSearchParams;
+	searchParams: Promise<GetSearchParams>;
 }) {
-	const params = await searchParams;
-	const categories = await findPizzas(params);
+	const categories = await findPizzas(searchParams);
+
 	return (
 		<>
 			<Container className="mt-10">
 				<Title text={"Все пиццы"} size="lg" className="font-bold" />
 			</Container>
-
 			<TopBar
 				categories={categories.filter(
 					(category) => category.products.length > 0
 				)}
 			/>
-
 			<Stories />
-
 			<Container>
 				<div className="flex gap-[60px]">
 					<div className={cn("hidden md:block w-[250px]")}>

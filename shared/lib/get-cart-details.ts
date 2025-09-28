@@ -20,8 +20,10 @@ interface ReturnProps {
 }
 
 export const getCartDetails = (data: CartDTO): ReturnProps => {
+	if (!data) throw new Error("Корзина не найдена");
+
 	const items =
-		(data.CartItem?.map((item: CartItemDTO) => ({
+		(data?.CartItem?.map((item: CartItemDTO) => ({
 			id: item.id,
 			quantity: item.quantity,
 			name: item.productItem.product.name,

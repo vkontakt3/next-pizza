@@ -2,16 +2,10 @@
 
 import { Dialog, DialogContent } from "@/shared/components/ui/dialog";
 import { cn } from "@/shared/lib/utils";
-import { Product } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { ChooseProductForm } from "../choose-product-form";
 import { ProductWithRelations } from "@/@types/prisma";
-import { ChoosePizzaForm } from "../choose-pizza-form";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
-import { useCartStore } from "@/shared/store/cart";
-import { ingredients } from "@/prisma/constans";
-import toast from "react-hot-toast";
 import { ProductForm } from "../product-form";
 
 type Props = {

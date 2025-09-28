@@ -3,11 +3,7 @@ import ProfileForm from "@/shared/components/shared/profile-form";
 import { getUserSession } from "@/shared/lib/get-user-session";
 import { redirect } from "next/navigation";
 
-interface Props {
-	className?: string;
-}
-
-export default async function ProfilePage({ className }: Props) {
+export default async function ProfilePage() {
 	const session = await getUserSession();
 
 	if (!session) return redirect("/not-auth");

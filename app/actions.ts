@@ -5,6 +5,7 @@ import { CheckoutFormValues } from "@/shared/components/shared/checkout/checkout
 import { createPayment } from "@/shared/lib/create-payment";
 import { getUserSession } from "@/shared/lib/get-user-session";
 import { OrderStatus, Prisma } from "@prisma/client";
+import { AxiosResponse } from "axios";
 import { hashSync } from "bcrypt";
 import { cookies } from "next/headers";
 
@@ -103,11 +104,24 @@ export async function createOrder(data: CheckoutFormValues) {
 
 		// return "https://templeos.org/" ;
 		return paymentUrl;
-	} catch (error: any) {
-		console.log(
-			"Ошибка при создании заказа или платежа:",
-			error.response?.data || error.message
-		);
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			// если это обычная ошибка
+			console.log("Ошибка при создании заказа или платежа:", error.message);
+		} else if (
+			typeof error === "object" &&
+			error !== null &&
+			"response" in error
+		) {
+			// если это Axios-подобная ошибка
+			console.log(
+				"Ошибка при создании заказа или платежа:",
+				(error.response as AxiosResponse)?.data
+			);
+		} else {
+			console.log("Неизвестная ошибка", error);
+		}
+
 		throw error;
 	}
 }
