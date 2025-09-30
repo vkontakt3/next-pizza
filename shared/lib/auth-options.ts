@@ -1,7 +1,7 @@
 import { AuthOptions, Session } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import CredentialProvider from "next-auth/providers/credentials";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/prisma/prisma-client";
 import { compare, hashSync } from "bcrypt";
 import { JWT } from "next-auth/jwt";
@@ -26,10 +26,10 @@ export const authOptions: AuthOptions = {
 				};
 			},
 		}),
-		CredentialProvider({
-			name: "credentials",
+		CredentialsProvider({
+			name: "Credentials",
 			credentials: {
-				email: { label: "Email", type: "email" },
+				email: { label: "Email", type: "text" },
 				password: { label: "Password", type: "password" },
 			},
 			async authorize(credentials) {
@@ -37,10 +37,12 @@ export const authOptions: AuthOptions = {
 					return null;
 				}
 
+				const values = {
+					email: credentials.email,
+				};
+
 				const findUser = await prisma.user.findFirst({
-					where: {
-						email: credentials.email,
-					},
+					where: values,
 				});
 
 				if (!findUser) {
@@ -53,10 +55,6 @@ export const authOptions: AuthOptions = {
 				);
 
 				if (!isPasswordValid) {
-					return null;
-				}
-
-				if (!findUser.verified) {
 					return null;
 				}
 
@@ -123,7 +121,7 @@ export const authOptions: AuthOptions = {
 
 				return true;
 			} catch (error) {
-				console.log(error, "error [signIn]");
+				console.error("Error [SIGNIN]", error);
 				return false;
 			}
 		},

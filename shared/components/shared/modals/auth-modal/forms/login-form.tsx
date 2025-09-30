@@ -28,7 +28,7 @@ export const LoginForm: React.FC<Props> = ({ onClose }) => {
 			const resp = await signIn("credentials", { ...data, redirect: false });
 
 			if (!resp?.ok) {
-				throw Error();
+				throw new Error(resp?.error || "Sign in failed");
 			}
 
 			toast.success(

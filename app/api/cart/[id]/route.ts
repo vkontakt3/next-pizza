@@ -4,10 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
 	req: NextRequest,
-	context: { params: { id: string } }
+	context: { params: Promise<{ id: string }> }
 ) {
-	const { params } = await context;
-	const { id } = params;
+	const { id } = await context.params;
 	const idNumber = Number(id);
 	const data = (await req.json()) as { quantity: number };
 	const token = req.cookies.get("cartToken")?.value;
@@ -30,11 +29,14 @@ export async function PATCH(
 	return NextResponse.json(updatedUserCart);
 }
 
+// ЗДЕСЬ ОСТАНОВИЛСЯ !!!!!!!!!!!!!!!!
 export async function DELETE(
 	req: NextRequest,
-	{ params }: { params: { id: string } }
+	params: { params: Promise<{ id: string }> }
 ) {
 	try {
+		const { id } = await params.params;
+
 		const token = req.cookies.get("cartToken")?.value;
 
 		if (!token) {
@@ -43,7 +45,7 @@ export async function DELETE(
 
 		const cartItem = await prisma.cartItem.findFirst({
 			where: {
-				id: Number(params.id),
+				id: Number(id),
 			},
 		});
 
@@ -53,7 +55,7 @@ export async function DELETE(
 
 		await prisma.cartItem.delete({
 			where: {
-				id: Number(params.id),
+				id: Number(id),
 			},
 		});
 
