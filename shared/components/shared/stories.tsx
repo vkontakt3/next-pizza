@@ -38,36 +38,37 @@ export default function Stories({ className }: Props) {
 	};
 
 	return (
-		<Container
-			className={cn("flex items-center justify-between gap-2 my-10", className)}
-		>
-			{stories.length === 0 &&
-				[...Array(6)].map((_, index) => (
-					<div
-						key={index}
-						className="w-[200px] h-[250px] bg-gray-200 rounded-md animate-pulse"
+		<Container className={cn("my-10", className)}>
+			{/* Горизонтальный скролл */}
+			<div className="flex gap-4 overflow-x-auto scrollbar-none py-2">
+				{stories.length === 0 &&
+					[...Array(6)].map((_, index) => (
+						<div
+							key={index}
+							className="flex-shrink-0 w-48 h-64 bg-gray-200 rounded-md animate-pulse"
+						/>
+					))}
+
+				{stories.map((story) => (
+					<img
+						key={story.id}
+						onClick={() => onClickStory(story)}
+						className="flex-shrink-0 w-48 h-64 rounded-md cursor-pointer object-cover"
+						src={story.previewImageUrl}
+						alt="story"
 					/>
 				))}
+			</div>
 
-			{stories.map((story) => (
-				<img
-					key={story.id}
-					onClick={() => onClickStory(story)}
-					className="rounded-md cursor-pointer"
-					height={250}
-					width={200}
-					src={story.previewImageUrl}
-				/>
-			))}
-
+			{/* Модалка со сторис */}
 			{open && (
-				<div className="absolute left-0 top-0 w-full h-full bg-black/80 flex items-center justify-center z-30">
-					<div className="relative" style={{ width: 520 }}>
+				<div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 px-4">
+					<div className="relative w-full max-w-md sm:max-w-lg">
 						<button
-							className="absolute -right-10 -top-5 z-30"
+							className="absolute -right-10 -top-5 z-50"
 							onClick={() => setOpen(false)}
 						>
-							<X className="absolute top-0 right-0 w-8 h-8 text-white/50" />
+							<X className="w-8 h-8 text-white/50" />
 						</button>
 
 						<ReactStories
@@ -77,7 +78,7 @@ export default function Stories({ className }: Props) {
 								[]
 							}
 							defaultInterval={3000}
-							width={520}
+							width="100%"
 							height={800}
 						/>
 					</div>
